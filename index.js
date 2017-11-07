@@ -10,6 +10,11 @@ server.listen(3000); // server lắng nghe
 
 io.on("connection",function(socket){ // lang nghe nguoi su dung
         console.log("co nguoi ket noi " + socket.id);
+        socket.on("Client-send-data",function(data){
+                io.sockets.emit("Server-send-data",data +" Hellsc");
+        })
+
+
         socket.on("disconnect",function () {
                 console.log(socket.id + " co nguoi ngat ket noi! ")
         })

@@ -5,37 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trangchu</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 
     <script src="jquery.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script src="main.js"></script>
 </head>
 <body>
-    <div class="col-md-12 form-group">
-        <div class="name-join form-group col-md-3">
-            <div class="col-md-12 form-group">
-                <input class="form-control" type="text" id="name" placeholder="Input your name or nick name">
-            </div>
-            <div class="col-md-2 form-group">
-                <input type="submit" class="btn btn-primary" id="join" value="Join">
-            </div>
-            <div id="status-name" class="col-md-12 form-group">
-            </div>
-        </div>
-        <h1>Testttttttttt</h1>
-        <div class="chat-box col-md-4">
-                <textarea class="form-control" name="chat-box" id="chat-box" cols="60" rows="30"></textarea>
-                <div class="send-message input-group">
-                    <input type="text" class="form-control" placeholder="Type a message..." aria-label="Type a message...">
-                    <span class="input-group-btn">
-                        <button id="send" class="btn btn-secondary" type"button">Send</button>
-                    </span>
+    <div class="container">
+        <div class="row">
+            <div class="name-join form-group col-md-3">
+                <div id="inputname">
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" type="text" id="name" placeholder="Input your name or nick name">
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <input type="submit" class="btn btn-primary" id="join" value="Join">
+                    </div>
                 </div>
-        </div>
+                <ul id="status-name" class="form-group col-md-12"></ul>
+                <table class="table col-md-12" >
+                    <thead>
+                        <tr>
+                            <th>ROOMS</td>
+                        </tr>
+                    </th>
+                    <tbody id="list-room">
+                    </tbody>
+                </table>
+            </div>
+            <div class="chat-box col-md-4">
+                    <textarea id="chat-box" class="form-control" name="chat-box"  cols="60" rows="25"></textarea>
+                    <div class="send-message input-group">
+                        <input id="message"type="text" class="form-control" placeholder="Type a message..." aria-label="Type a message...">
+                        <span class="input-group-btn">
+                            <button id="send" class="btn btn-secondary" type"button">Send</button>
+                        </span>
+                    </div>
+            </div>
+            <div class="btn-logout col-md-3">
+                <div id="title" class="form-group col-md-8">
+                </div>
+                <div class="form-group col-md-2">
+                    <button id="logout" class="btn btn-legendary">logout</button>
+                </div>
+                <div id="new-room" class="form-group col-md-12">
+                    <button id="tao-nhom" class="btn btn-primary">new room</button>
+                    <div id="input-room" class="input-group">
+                        <input id="room"type="text" class="form-control" placeholder="Input name or Join Room" aria-label="Input name or join room">
+                        <span class="input-group-btn">
+                            <button id="create" class="btn btn-secondary" type"button">create</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
 
+        </div>
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>

@@ -1,4 +1,4 @@
-FROM node:7.7.4-alpine
+FROM node:8.9.0-alpine
 RUN mkdir -p /usr/src/socketio
 WORKDIR /usr/src/socketio
 COPY . /usr/src/socketio

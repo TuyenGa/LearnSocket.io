@@ -34,12 +34,6 @@ io.on("connection",function(socket){ // lang nghe nguoi su dung
         socket.on("user-send-message",(data)=>{
                 io.sockets.emit("Server-send-message",{"name" : socket.name , "message" : data});
         });
-        socket.on("Create-room",(name)=>{
-                socket.join(name);
-                listRoom.push(name);
-                socket.roomName = name;
-                io.sockets.emit("Server-create-room-success",listRoom);
-        })
         socket.on("disconnect",function () {
                 socket.emit("Server-disconnect");
                 mangUser.splice(

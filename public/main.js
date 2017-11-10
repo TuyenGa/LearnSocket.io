@@ -1,5 +1,5 @@
 
-let socket = io("http://localhost:3000"); // ket noi vao server
+let socket = io(); // ket noi vao server
 
 $(document).ready(function () {
     $("#join").click(function () {
@@ -23,7 +23,7 @@ $(document).ready(function () {
         alert($(item).attr('id'))
     }
     socket.on("leave",(data) => {
-        $("#chat-box").append(`\t ${data} leave out conversation.\n`);
+        $("#chat-box").append(`\n \t  ${data} left\n`);
     })
     $("#input-room").hide();
     $("#tao-nhom").click(() => {
@@ -31,11 +31,6 @@ $(document).ready(function () {
         $("#input-room").show(2000);
 
     });
-    $("#create").click(() =>{
-        let roomName = $("#room").val();
-        socket.emit("Create-room",roomName);
-        $("#room").val("");
-    })
     socket.on("Server-send-danh-sach",function(data){
         $("#status-name").html("");
         data.map((i) =>{
@@ -52,15 +47,6 @@ $(document).ready(function () {
     socket.on("Server-dang-ky-that-bai", () => { // dang ky that bai
         alert("Username da co nguoi su dung");
     });
-    socket.on("Server-create-room-success",(data) =>{
-        data.map((item)=>{
-            $("#list-room").append(
-                `<tr>
-                    <td>${item}</td>
-                </tr>`
-            )
-        })
-    })
 
 
 });

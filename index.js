@@ -8,42 +8,51 @@ const server = require("http").Server(app); //tạo ra cổng http
 const io = require("socket.io")(server);
 server.listen(3000); // server lắng nghe
 
-var mangUser = [];
-var listRoom = [];
+io.on('connection', function (socket) {
 
-io.on("connection",function(socket){ // lang nghe nguoi su dung
-        socket.on("Client-send-name",function(data){
-                if(mangUser.indexOf(data) >= 0){
-                        socket.emit("Server-dang-ky-that-bai")
-                }
-                else{
-                        mangUser.push(data);
-                        socket.name = data;
-                        socket.emit("Server-dang-ky-thanh-cong",data);
-                        io.sockets.emit("Server-send-danh-sach",mangUser);
-                }
-        });
-        //socket.emit("server-send-id",socket.id)
-        socket.on("logout",function(){
-                mangUser.splice(
-                        mangUser.indexOf(socket.name), 1
-                );
-                socket.broadcast.emit("leave",socket.name);
-                socket.broadcast.emit("Server-send-danh-sach",mangUser);
-        })
-        socket.on("user-send-message",(data)=>{
-                io.sockets.emit("Server-send-message",{"name" : socket.name , "message" : data});
-        });
-        socket.on("disconnect",function () {
-                socket.emit("Server-disconnect");
-                mangUser.splice(
-                        mangUser.indexOf(socket.name), 1
-                );
-                socket.broadcast.emit("leave",socket.name);
-                socket.broadcast.emit("Server-send-danh-sach",mangUser);
-        })
+        //user request to join room
+        socket.on('joined', (data) => {
+                socket.join(data.room);
 
+                mems[data.room].push({
+                        id: data.id,
+                        name: data.name
+                });
+
+                io.sockets.in(data.room).emit("joined", { name: data.name, id: data.id, mems: mems[data.room] });
+        });
+
+        //user request to leave room
+        socket.on('leaved', (data) => {
+                socket.leave(data.room);
+
+                let newData = mems[data.room].filter(item => {
+                        return item.id !== data.id;
+                });
+
+                mems[data.room] = newData;
+
+                io.sockets.in(data.room).emit("leaved", { name: data.name, id: data.id, mems: mems[data.room] });
+        });
+
+        // new Message sent
+        socket.on('chat', (data) => {
+
+                // Broadcast message to all user in room
+                socket.broadcast.to(data.room).emit('news', { msg: data.msg, name: data.name })
+
+        });
+
+        socket.on('chatToId', (data) => {
+                socket.broadcast.to(data.id).emit('toYou', { msg: data.msg, name: data.name, id: data.info })
+        });
 });
+
+const mems = {
+        android: [],
+        ios: [],
+        webdev: []
+};
 app.get("/",function (req, res){
         res.render("trangchu") // app. get port
 });

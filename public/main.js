@@ -18,10 +18,6 @@ $(document).ready(function () {
         $("#inputname").hide(2000);
         $("#title").append(`<p class='col-md-12'>Welcome: <strong> ${data} </strong></p>`)
     }); // dang ky thanh cong
-    chatrieng = (item) =>
-    {
-        alert($(item).attr('id'))
-    }
     socket.on("leave",(data) => {
         $("#chat-box").append(`\n \t  ${data} left\n`);
     })
@@ -34,7 +30,7 @@ $(document).ready(function () {
     socket.on("Server-send-danh-sach",function(data){
         $("#status-name").html("");
         data.map((i) =>{
-            $("#status-name").append(`<li class='user' >${i} online </li>`);
+            $("#status-name").append(`<li class='list-group-item' >${i} online </li>`);
         });
     });
     $("#send").click(() => {
@@ -47,6 +43,38 @@ $(document).ready(function () {
     socket.on("Server-dang-ky-that-bai", () => { // dang ky that bai
         alert("Username da co nguoi su dung");
     });
-
-
 });
+function joinLeave(type, name, room) {
+    socket.emit(type, { name: name, room: room, id: socket.id });
+    toId = '';
+}
+
+//Function click and change room
+function changeRoom(item) {
+    let val = $(item).text();
+    if (val !== room) {
+        joinLeave("leaved", name, room);
+        room = val;
+        joinLeave('joined', name, room);
+    } else {
+        alert("You already joined this room!");
+    }
+
+    $('ul li').removeClass('active');
+    toId = '';
+    $(item).addClass('active');
+}
+
+//Click to chat to a people
+function connectID(item) {
+    toId = $(item).attr('id');
+}
+
+// function reset
+function reset() {
+    registered = false;
+    name = "";
+    room = "android";
+    toId = '';
+    $("ul li").removeClass('active');
+}

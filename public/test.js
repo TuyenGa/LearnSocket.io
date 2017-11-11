@@ -60,7 +60,7 @@
 
             //Enable typing and sending
             $("#chat-content *").attr("disabled", false);
-
+            $("#wellcome").append(`<p>Wellcome: <strong>${$("#name").val()}</strong></p>`)
             //Get user name
             name = $("#name").val();
 
@@ -87,7 +87,7 @@
             $("#register").html("Join");
             registered = false;
             $('#chatbox').val('');
-
+            $("#wellcome").html();
             //Send request to leave current room
             joinLeave('leaved', name, room);
 

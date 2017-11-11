@@ -35,7 +35,14 @@ p.online {
     width: 248px;
 }
 li.active{
-            background-color: #aaa !important;
-            border: 1px solid #bbb !important;
-            color: #fff !important;
-         }
+    background-color: #aaa !important;
+    border: 1px solid #bbb !important;
+    color: #fff !important;
+}
+div#wellcome {
+    margin-top: 20px;
+}
+
+div#chat-content {
+    margin-top: 20px;
+}
